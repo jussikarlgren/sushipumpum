@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+while (<>) {
+split;
+$tmp = ();
+foreach $i (@_) {
+$tmp{$i}++;
+}
+foreach (keys %tmp) {
+$freq{$_}++;
+}
+
+}
+
+foreach (keys %freq) {
+print "$freq{$_} $_\n";
+
+}

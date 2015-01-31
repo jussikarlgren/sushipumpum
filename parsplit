@@ -1,0 +1,14 @@
+#! /usr/local/bin/perl
+
+$/ = "";
+
+    $i++;
+while (<>) {
+    open(OUT, "> out.$i.txt") || die "open: $!\n";
+
+    print OUT;
+
+    $i++;
+
+    close OUT;
+}

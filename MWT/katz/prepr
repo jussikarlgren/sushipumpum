@@ -1,0 +1,26 @@
+#!/usr/local/bin/perl
+$/="\<\/DOC\>";
+$*=1;
+while (<>) {
+next if !/.*\<DOCNO\>\s+(\w+-\w+)\s+\<\/DOCNO\>/;
+    $docno = $1;
+    $rad = $';
+    $rad =~ /(\<LP\>|\<TEXT\>)((.|\n)*)\<\/TEXT\>/;
+    $_ = $2;
+
+	s/\<[^\>]*\>//g ;	# remove tags
+	s/-\n/-/g;		# join hyphens at line breaks
+	s/\n/\ /g;		# join line breaks
+	s/[\}\{\[\],)(\"]/\ ,\ /g;		# remove punctuation (lesser)
+	s/[\.;:!\?]/\ ;\ /g;		# remove punctuation (sentence break)
+	tr/A-Z/a-z/;		# lowercase 
+	print;
+    }		
+exit(0);	
+
+
+
+
+
+
+

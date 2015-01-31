@@ -1,0 +1,234 @@
+"<$->"
+"<$->"
+"<$->"
+"<$->"
+"<$->"
+"<$->"
+"<+>"
+	"+" Not Enklish! @???
+"<$.>"
+"<$\,>"
+"<$\;>"
+"<$\:>"
+"<$\'>"
+"<$\">"
+"<$\)>"
+"<$\`>"
+"<$\!>"
+"<$?>"
+"<$/>"
+"<$>>"
+"<$<>"
+"<$\[>"
+"<$\]>"
+"<$\{>"
+"<$\}>"
+"<out>"
+	"out" ADV ADVL  @ADVL
+"<et>"
+	"et" ABBR NOM SG  @SUBJ
+"<at>"
+	"at" PREP  @<NOM @ADVL
+"<the>"
+	"the" <Def> DET CENTRAL ART SG/PL  @DN>
+"<a>"
+	"a" <Indef> DET CENTRAL ART SG  @DN>
+"<and>"
+	"and" CC  @CC
+"<that>"
+	"that" <NonMod> PRON DEM SG  @SUBJ @<P
+	"that" DET CENTRAL DEM SG  @DN>
+	"that" <**CLB> CS  @CS
+"<one>"
+	"one" PRON NOM SG  @SUBJ @<P
+	"one" NUM CARD  @SUBJ @<P @ADVL
+"<it>"
+	"it" <NonMod> PRON NOM SG3 SUBJ  @SUBJ
+"<two>"
+	"two" NUM CARD  @QN>
+"<five>"
+	"five" NUM CARD  @SUBJ @<P @<NOM @ADVL
+"<said>"
+	"say" <Vcog> <SVO> <SV> V PAST VFIN  @+FMAINV
+"<as>"
+	"as" <**CLB> CS  @CS
+	"as" PREP  @ADVL
+"<*mr.>"
+	"mr" <*> <Title> ABBR NOM SG  @<P
+"<still>"
+	"still" ADV  @ADVL
+"<he>"
+	"he" <NonMod> PRON PERS MASC NOM SG3 SUBJ  @SUBJ
+"<its>"
+	"it" <NonMod> PRON GEN SG3  @SUBJ
+"<be>"
+	"be" <SV> <SVC/N> <SVC/A> V SUBJUNCTIVE VFIN  @+FMAINV
+"<three>"
+	"three" NUM CARD  @PCOMPL-S @ADVL
+"<an>"
+	"an" <Indef> DET CENTRAL ART SG  @DN>
+"<up>"
+	"up" ADV ADVL  @ADVL
+"<down>"
+	"down" ADV ADVL  @ADVL
+"<but>"
+	"but" CC  @CC
+"<have>"
+	"have" <SVO> <SVOC/A> V PRES -SG3 VFIN  @+FMAINV
+"<will>"
+	"will" N NOM SG  @SUBJ
+"<seven>"
+	"seven" NUM CARD  @QN>
+"<six>"
+	"six" NUM CARD  @QN>
+"<four>"
+	"four" NUM CARD  @NN>
+"<eight>"
+	"eight" NUM CARD  @SUBJ
+"<of>"
+	"of" PREP  @<NOM-OF
+"<to>"
+	"to" PREP  @ADVL
+"<in>"
+	"in" PREP  @ADVL
+"<for>"
+	"for" PREP  @ADVL
+"<on>"
+	"on" ADV ADVL  @ADVL
+"<from>"
+	"from" PREP  @ADVL
+"<with>"
+	"with" PREP  @ADVL
+"<by>"
+	"by" ADV ADVL  @ADVL
+"<has>"
+	"have" <SVO> <SVOC/A> V PRES SG3 VFIN  @+FMAINV
+"<or>"
+	"or" CC  @CC
+"<this>"
+	"this" <NonMod> PRON DEM SG  @SUBJ @OBJ
+"<would>"
+	"would" V AUXMOD VFIN  @+FAUXV
+"<which>"
+	"which" DET CENTRAL WH SG/PL  @DN>
+"<nine>"
+	"nine" NUM CARD  @SUBJ
+"<they>"
+	"they" <NonMod> PRON PERS NOM PL3 SUBJ  @SUBJ
+"<more>"
+	"much" ADV CMP  @ADVL
+"<is>"
+	"be" <SV> <SVC/N> <SVC/A> V PRES SG3 VFIN  @+FMAINV
+"<are>"
+	"be" <SV> <SVC/N> <SVC/A> V PRES -SG1,3 VFIN  @+FMAINV
+"<were>"
+	"be" <SV> <SVC/N> <SVC/A> V PAST VFIN  @+FMAINV
+"<was>"
+	"be" <SV> <SVC/N> <SVC/A> V PAST SG1,3 VFIN  @+FMAINV
+"<his>"
+	"he" <NonMod> PRON PERS MASC GEN SG3  @PCOMPL-S
+"<their>"
+	"they" <NonMod> PRON PERS GEN PL3  @GN>
+"<than>"
+	"than" PREP  @ADVL
+"<whose>"
+	"who" <NonMod> <**CLB> <Interr> PRON WH GEN SG/PL  @<P
+"<who>"
+	"who" <NonMod> <**CLB> <Rel> PRON WH NOM SG/PL  @OBJ
+"<also>"
+	"also" ADV ADVL  @ADVL
+"<some>"
+	"some" <Quant> DET CENTRAL SG/PL  @QN>
+"<first>"
+	"first" NUM ORD  @DN>
+"<other>"
+	"other" DET POST SG/PL  @DN>
+"<last>"
+	"last" <SV> <SVO> V PRES -SG3 VFIN  @+FMAINV
+"<not>"
+	"not" NEG-PART  @NEG
+"<if>"
+	"if" <**CLB> CS  @CS
+"<all>"
+	"all" <NonMod> <Quant> PRON SG/PL  @SUBJ @OBJ
+"<we>"
+	"we" <NonMod> PRON PERS NOM PL1 SUBJ  @SUBJ
+"<where>"
+	"where" <**CLB> ADV WH  @ADVL
+"<when>"
+	"when" <**CLB> ADV WH  @ADVL
+"<after>"
+	"after" ADV ADVL  @ADVL
+"<because>"
+	"because" <**CLB> CS  @CS
+"<*i>"
+	"i" <*> <NonMod> PRON PERS NOM SG1 SUBJ  @SUBJ
+"<may>"
+	"may" V AUXMOD VFIN  @+FAUXV
+"<could>"
+	"could" V AUXMOD VFIN  @+FAUXV
+"<such>"
+	"such" DET POST SG/PL  @DN>
+"<there>"
+	"there" ADV  @ADVL
+"<most>"
+	"many" <Quant> PRON SUP PL  @SUBJ
+	"much" <Quant> PRON SUP SG  @SUBJ
+	"much" ADV SUP  @AD-A>
+"<only>"
+	"only" ADV  @ADVL @AD-A>
+"<so>"
+	"so" ADV  @ADVL @AD-A>
+"<many>"
+	"many" <Quant> PRON ABS PL  @SUBJ
+"<any>"
+	"any" <NonMod> <Quant> PRON SG/PL  @SUBJ
+"<can>"
+	"can" V AUXMOD VFIN  @+FAUXV
+"<ten>"
+	"ten" NUM CARD  @ADVL
+"<now>"
+	"now" ADV  @ADVL
+"<no>"
+	"no" <Quant> DET CENTRAL SG/PL NEG  @QN>
+"<much>"
+	"much" <NonMod> <Quant> PRON ABS SG  @SUBJ
+	"much" ADV ABS  @ADVL
+"<what>"
+	"what" <NonMod> <**CLB> PRON WH SG/PL  @SUBJ
+"<them>"
+	"they" <NonMod> PRON PERS ACC PL3  @OBJ
+"<even>"
+	"even" ADV  @ADVL
+"<while>"
+	"while" <**CLB> CS  @CS
+"<you>"
+	"you" <NonMod> PRON PERS NOM SG2/PL2  @SUBJ
+"<before>"
+	"before" ADV ADVL  @ADVL
+"<since>"
+	"since" PREP  @ADVL
+"<those>"
+	"that" <NonMod> PRON DEM PL  @<P
+"<against>"
+	"against" PREP  @<NOM @ADVL
+"<through>"
+	"through" PREP  @ADVL
+"<these>"
+	"this" <NonMod> PRON DEM PL  @<P
+"<do>"
+	"do" <SVO> <SVOO> <SV> V INF  @-FMAINV
+"<next>"
+	"next" <Genord> DET POST SG/PL  @QN>
+	"next" ADV  @ADVL @AD-A>
+"<just>"
+	"just" ADV  @AD-A>
+	"just" A ABS  @AN>
+"<half>"
+	"half" <NonMod> <Quant> PRON SG/PL  @OBJ
+	"half" N NOM SG  @OBJ
+	"half" ADV  @AD-A>
+"<both>"
+	"both" <NonMod> <Quant> PRON NOM PL  @OBJ
+"<within>"
+	"within" ADV ADVL  @ADVL

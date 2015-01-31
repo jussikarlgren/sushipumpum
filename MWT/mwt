@@ -1,0 +1,123 @@
+#!/usr/local/bin/perl
+
+###############################################################################
+#                                                                             #
+# MWT is a program aiming at identifying topically used technical terminology #
+# in text. It is based on structural (simple noun phrases) and discourse      #
+# (repetition) properties of multi-word terms. These properties along with    #
+# the algorithm utilizing them were first presented in                        #
+#                                                                             #
+# John S. Justeson and Slava M. Katz. Technical terminology:                  #
+# some linguistic property and algorithm for identifying in text.             #
+# IBM Research Report xxxx, 1993.                                             #
+#                                                                             #
+# An updated version of the paper was published under the same title in       #
+# Natural Language Engineering: 1(1), 9-27 (1995).                            #
+#                                                                             #
+# MWT is based on the material presented in these publications.               #
+#                                                                             #
+###############################################################################
+require "getopts.pl";
+&Getopts('m:n:p:f:');
+
+if ( ($#ARGV < 1)  && ($#ARGV > 4) ) { 
+print "Usage:       mwt file_name [ -n min_length -m max_length -p preps -f frequency]\n";
+print "									  \n";
+print "		    file_name  is a name of the text file to be processed \n";
+print "			       the file is assumed to be tokenized        \n";
+print "		    min_length is the minimum number of words in a term   \n";
+print "		    max_length is the maximum number of words in a term   \n";
+print "		    preps      is either 0 - no prepositions allowed,     \n";
+print "				      or 1 - only 'of' is allowed,        \n";
+print "				      or 2 - all prepositions are allowed.\n";
+print "		    frequency  is the minimum frequency of a term to      \n";
+print "			       for it to be counted.             	  \n";
+print "									  \n";
+print "Defaults: min_length=2, max_length=5, preps=0 frequency=2          \n";
+exit;
+}    
+#==============================================================
+$min = 2; $max = 5; $preps = 0; $freq = 2; $conjunctions = 0;
+$freq = $opt_f if $opt_f;
+$min = $opt_n if $opt_n;
+$max = $opt_m if $opt_m;
+$preps = $opt_p if $opt_p;
+print "Processing $ARGV[0] ($min $max $preps $freq)\n"; 
+#==============================================================
+#initialize dictionary
+%part_of_speech = {};
+open(LEX, "<engmwt.lex");  
+while ($_ = <LEX>) {
+    split;
+    $part_of_speech{$_[0]} = $_[1];  
+}
+close LEX;
+#==============================================================
+$rest = (); $zz = 0; 
+while (<>) {
+    tr/A-Z/a-z/;  
+    s/\-\"//go;
+    s/[.,;:!?]/\ ;\ /g;
+  @array = split(/\s+/,$_); # split line into words 
+  for ($ii = 0; $ii <= $#array; $ii++) { 
+    if (length($array[0]) == 0) {shift @array} else {last}
+  } 
+  @array = (@rest,@array); # add in front leftovers from previous line 
+  @frag = ();
+  foreach $word (@array) {	
+      if (&PASSED($word)) { 
+	  @frag = (@frag,$word) 
+	  } else { 
+	      if (@frag != ()) { 
+		  &PROCESS; 
+		  @frag = () 
+		  } 
+	  }
+  }
+  @rest = @frag;
+} 
+if ( @frag != () ) { &PROCESS(@frag) }  
+
+foreach (keys %mwt) {print "$mwt{$_} $_\n" if $mwt{$_} >= $freq;}
+
+exit(0);
+#==============================================================
+sub PASSED {
+    local($lword,$code) = (@_,99); 
+    $code = $part_of_speech{$lword}  
+    if ( $part_of_speech{$lword} == 99) { return 0 }  
+    if ( $lword > 0 ) { return 0 } # test for numbers. /JUSSI
+    if ( length($lword) < 2 ) { return 0 } # single characters. /JUSSI
+    if ( $code <= 3 ) { return 1 }  
+    if (($preps >= 1) && ($part_of_speech{$lword} == 4)) { return 1 }
+    if (($preps == 2) && ($part_of_speech{$lword} == 5)) { return 1 }
+    if (($conjunctions > 0) && ($part_of_speech{$lword} == 6)) { return 1 }
+    return 0;
+}
+#==============================================================
+sub PROCESS {
+    local($jj_lim, $n_preps);  
+    if (($#frag+1) < $min) { return } 
+    LOOP_B: for ($ii = 0; $ii <= ($#frag-$min+1); $ii++) { # thru beginnings
+      if ($part_of_speech{$frag[$ii]} == 4 || $part_of_speech{$frag[$ii]} == 5) {next} # 1st is prep 
+      $jj_lim = $ii+$max-1; 
+      if ($jj_lim > $#frag) {$jj_lim = $#frag} 
+      LOOP_E: for ($jj = $ii+$min-1; $jj <= $jj_lim; $jj++) { # thru ends 
+        if ( $part_of_speech{$frag[$jj]} > 2 ) {next}  # last is not noun 
+        if ( $preps >= 1 ) {
+          $n_preps = 0;
+          for ($kk = $ii+1; $kk <= $jj-1; $kk++) {
+            if ( $prep{$frag[$kk]}) { 
+              $n_preps++; 
+              if (($n_preps > 1) || ($part_of_speech{$frag[$kk-1]} > 2)) {next LOOP_B} 
+            } 
+          } # end of $kk for-loop
+          if ($n_preps > 1) {next} 
+        } # end of if ($preps >= 1)
+
+	$term = join(' ',@frag[$ii..$jj]);
+	$mwt{$term}++;
+      } # end of LOOP_E loop 
+    } # end of LOOP_B loop    
+}
+

@@ -1,0 +1,65 @@
+#!/usr/bin/perl
+
+$wordcount = 0;
+$sentcount = 1; # at least one clause can be assumed
+$charcount = 0;
+$typecount = 0;
+$digcount = 0;
+$digits = 0;
+$lw = 0;
+$tt = 0;
+$lwpw = 0;
+$cpw = 0;
+%mendenhall = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+%typetab = ();
+%captypetab = ();
+$captokcount = 0;
+
+while(<>) {
+    split;
+    $word = $_[1];
+    $lemma = $_[2];
+    if (length($lemma) > 7) {$lw++};
+    if ($word*1 != 0) {$digcount++;};
+    if ($word eq ucfirst($word)) {$captypetab{$lemma} = 1; $captokcount++;};
+    $typetab{$lemma} = 1;
+    $lgd = length($word);
+    $charcount += $lgd;
+    if ($lgd > 12) {$lgd = 12;};
+    $mendenhall{$lgd}++; 
+    $wordcount++;	
+    $sentcount++ if $word eq ".";
+    $sentcount++ if $word eq ";";
+    $sentcount++ if $word eq "?";
+    $sentcount++ if $word eq "!";
+};
+
+# how many different words? ("types")
+foreach (keys %typetab) {$typecount++;}; 
+
+if ($wordcount) {
+    $tt = $typecount/$wordcount;
+    $lwpw = $lw/$wordcount;
+    $cpw = $charcount/$wordcount;
+};
+if ($charcount) {
+    $digits = $digcount/$charcount;
+};
+
+$wps = $wordcount/$sentcount;
+
+# how many different capitalized words?
+foreach (keys %captypetab) {$captypecount++;}; 
+if ($captokcount) {$ctt = $captypecount/$captokcount;} else {$ctt = 0;};
+
+
+print " $wordcount $sentcount $cpw $wps $tt $ctt $lwpw $digits";
+$i = 1;
+while ($i < 12) {
+    print " $mendenhall{$i++}";
+};
+print "\n";
+
+
+
+

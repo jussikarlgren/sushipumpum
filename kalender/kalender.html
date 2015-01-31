@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+<HEAD>
+<TITLE>
+Kalender - configurable html calendar
+</TITLE>
+<LINK REL="STYLESHEET" TYPE="text/css" HREF="http://www.sics.se/~jussi/jussi.css" TITLE="Jussi">
+</HEAD>
+<BODY>
+<center>
+<h1>
+Kalender - a configurable printable calendar
+</h1>
+<h2>
+Jussi Karlgren, December 2002
+</h2>
+</center>
+
+Kalender is a perl script which will allow you to configure your own
+wall calendar with images and your selection of holidays.  No
+documentation (well, hardly any), no man page, write-only code.
+Kalendar supports name days, birthdays, holidays, red days, flag days,
+week numbers, and new and full moon.
+
+<p>
+Kalender runs in perl and produces html pages. To use kalender you
+will need perl and a friendly web browser.
+
+<h2>
+Configuring kalender
+</h2>
+
+
+<h2>
+Perl and how to run kalender
+</h2>
+
+Perl is freely downloadable from e.g. 
+www.perl.org and relatively easy to install for
+computer-literate users. 
+Perl typically runs from a terminal
+or MS-DOS window. 
+
+<p>
+Place the kalender code in a convenient directory
+together with the files of birthdays etc
+you wish to use.
+
+<p>
+Kalender is run by opening a terminal window,
+going to the directory where kalender resides, and
+giving the command "perl kalender". 
+<h2>
+Printing
+</h2>
+
+Try to use a web browser
+which will allow you to print the pages without
+page headers. 
+
+<h2>
+Configuration steps in brief
+</h2>
+
+First, modify the first bit of the kalendar code itself to
+address the following points. 
+
+<ol>
+<li>
+Year setup (Which year is it? What day of week does it begin?) 
+<li>
+European week or US week? (Sunday last or first day of week?)
+<li>
+Week numbers? 
+<li>
+One or two languages? (For month and weekday names?)
+<li>
+Names of weekdays and months?
+<li>
+Find 12 nice images and format them to fit the calendar page.
+<li>
+Page layout (Height and width of grid cells, etcetera?)
+</ol>
+
+Then, fix databases of special days to mark in the calendar in six
+separate .kd files. Example files are provided together with the code.
+
+<ul>
+<li> Birthdays
+<li> Namedays 
+<li> Red days / Bank holidays / Observed holidays
+<li> Other holidays or otherwise remarkable days
+<li> Flag days
+<li> Moon phases
+</ul>
+
+<h2>
+Code
+</h2>
+
+The kalendar perl code together with example configuration files is
+available right <a href="code">here</a>.
+
+</ul>
+
+</body>
+</html>

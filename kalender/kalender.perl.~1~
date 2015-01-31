@@ -1,0 +1,339 @@
+#!/usr/bin/perl
+#---------------------------------------------
+# Jussi Karlgren jussi@lingvi.st December 2002
+# Small hack for generating calendar templates in HTML.
+# No documentation, no man page, write-only code.
+# Supports name days, birthdays, holidays, red days, flag days,
+# new and full moon.
+#---------------------------------------------
+# red day of the week?
+# Europe:
+$redDayOfWeek = 7;
+# US:
+#$redDayOfWeek = 1;
+#---------------------------------------------
+# if you want two languages set this to one
+#$biling = 1;
+$biling = 0;
+#---------------------------------------------
+# major pictures fam fyring
+$picture[1] = "kfisk.JPG";
+ $picture[2] = "kthandlar.JPG";
+ $picture[3] = "hcykel2.jpg";
+ $picture[4] = "kasperbonk.jpeg";
+ $picture[5] = "teddesfamilj.jpeg";
+ $picture[6] = "storgunga.JPG";
+ $picture[7] = "trepojkarmedgameboy500h.jpg";
+ $picture[8] = "ktlivbat.JPG";
+ $picture[9] = "leija1023.JPG";
+$picture[10] = "arturduschar500h.jpg";
+$picture[11] = "fyrabarnisoffan.jpeg";
+$picture[12] = "grispig.jpeg";
+#---------------------------------------------
+# major pictures fam karlgren
+# $picture[1] = "jkttelegraf1.JPG";
+# $picture[2] = "kthandlar.JPG";
+# 
+# $picture[4] = "kasperbonk.jpeg";
+# $picture[5] = "teddesfamilj.jpeg";
+# $picture[6] = "storgunga.JPG";
+# $picture[7] = "trepojkarmedgameboy.jpg";
+# $picture[8] = "ktlivbat.JPG";
+# $picture[9] = "leija1023.JPG";
+#$picture[10] = "arturduschar.jpg";
+#
+#$picture[12] = "grispig.jpeg";
+#---------------------------------------------
+# minor pictures
+
+
+#---------------------------------------------
+# does this year start with what day of the week?
+$yearStartDay = 3;
+#$mo = 1;
+$year = 2003;
+#---------------------------------------------
+# get options via command line
+require "getopts.pl";
+&Getopts('p:hm:bs:y:');
+if ($opt_h) {
+#    print "-m <Month> (a number between 1 and 12).\n";
+    print "-y <Year> (any number).\n";
+    print "-s <Start day> (a number between 1 and 7: the day of week this year starts).\n";
+    print "-b Bilingual output (if days and months are so defined in code.)\n";
+    print "-p <PATH> Relative path to calendar database (.kd) files (defaults to .).\n";
+    print "-h This text.\n"; 
+    exit;
+};
+if ($opt_b) {
+    $biling = 1;
+};
+if ($opt_p) {
+    $path = $opt_p;
+} else {
+    $path = ".";
+};
+#if ($opt_m) {
+#    $mo = $opt_m;
+#};
+if ($opt_y) {
+    $year = $opt_y;
+};
+if ($opt_s) {
+    $yearStartDay = $opt_s;
+};
+#---------------------------------------------
+# birthday database
+open(BIRTHDAY, "<$path/birthday.kd");
+while ($_ = <BIRTHDAY>) {
+    chop;
+    if ($birthday{substr($_,0,4)}) {
+	$birthday{substr($_,0,4)} .= ", ".substr($_,5);
+    } else {
+	$birthday{substr($_,0,4)} = substr($_,5);
+    };
+};
+close BIRTHDAY;
+#---------------------------------------------
+# name day database
+open(NAMEDAY, "<$path/nameday.kd");
+while ($_ = <NAMEDAY>) {
+    chop;
+    if ($nameday{substr($_,0,4)}) {
+	$nameday{substr($_,0,4)} .= ", ".substr($_,5);
+    } else {
+    $nameday{substr($_,0,4)} = substr($_,5);
+    };
+};
+close NAMEDAY;
+#---------------------------------------------
+# flag day database
+# flag days are noted so that flag icon can be displayed;
+# the explanatory text is saved in $holiday string which is accumulated
+# with all kinds of holidays.
+open(FLAGDAY, "<$path/flagday.kd");
+while ($_ = <FLAGDAY>) {
+    chop;
+    $flagday{substr($_,0,4)} = 1;
+    if ($holiday{substr($_,0,4)}) {
+	$holiday{substr($_,0,4)} .= ", ".substr($_,5);
+    } else {
+	$holiday{substr($_,0,4)} = substr($_,5);
+    };
+};
+close FLAGDAY;
+#---------------------------------------------
+# red day database
+# red days are noted so that red font can be used;
+# the explanatory text is saved in $holiday string which is accumulated
+# with all kinds of holidays.
+open(REDDAY, "<$path/redday.kd");
+while ($_ = <REDDAY>) {
+    chop;
+    $redday{substr($_,0,4)} = 1;
+    if ($holiday{substr($_,0,4)}) {
+	$holiday{substr($_,0,4)} .= ", ".substr($_,5);
+    } else {
+	$holiday{substr($_,0,4)} = substr($_,5);
+    };
+};
+close REDDAY;
+#---------------------------------------------
+# holiday database - holidays that aren't flag or red days.
+open(HOLIDAY, "<$path/holiday.kd");
+while ($_ = <HOLIDAY>) {
+    chop;
+    if ($holiday{substr($_,0,4)}) {
+	$holiday{substr($_,0,4)} .= ", ".substr($_,5);
+    } else {
+	$holiday{substr($_,0,4)} = substr($_,5);
+    };
+};
+close HOLIDAY;
+#---------------------------------------------
+# moon phase database
+open(MOONDAY, "<$path/moonday.kd");
+while ($_ = <MOONDAY>) {
+    chop;
+    $fullmoon{substr($_,0,4)} = 1 if substr($_,5) eq "F";
+    $newmoon{substr($_,0,4)} = 1 if substr($_,5) eq "N";
+};
+close MOONDAY;
+#---------------------------------------------
+# how many days in a month? leap year disregarded.
+@md = (31,28,31,30,31,30,31,31,30,31,30,31);
+#---------------------------------------------
+# names of months. language number two in @monthbis.
+$month[1] = "Januari";
+$month[2] = "Februari";
+$month[3] = "Mars";
+$month[4] = "April";
+$month[5] = "Maj";
+$month[6] = "Juni";
+$month[7] = "Juli";
+$month[8] = "Augusti";
+$month[9] = "September";
+$month[10] = "Oktober";
+$month[11] = "November";
+$month[12] = "December";
+$monthbis[1] = "Tammikuu";
+$monthbis[2] = "Helmikuu";
+$monthbis[3] = "Maaliskuu";
+$monthbis[4] = "Huhtikuu";
+$monthbis[5] = "Toukokuu";
+$monthbis[6] = "Kesäkuu";
+$monthbis[7] = "Heinäkuu";
+$monthbis[8] = "Elokuu";
+$monthbis[9] = "Syyskuu";
+$monthbis[10] = "Lokakuu";
+$monthbis[11] = "Marraskuu";
+$monthbis[12] = "Joulukuu";
+#---------------------------------------------
+# names of weekdays. language number two in @daybis.
+$day[1] = "Måndag";
+$day[2] = "Tisdag";
+$day[3] = "Onsdag";
+$day[4] = "Torsdag";
+$day[5] = "Fredag";
+$day[6] = "Lördag";
+$day[7] = "Söndag";
+$daybis[1] = "Maanantai";
+$daybis[2] = "Tiistai";
+$daybis[3] = "Keskiviikko";
+$daybis[4] = "Torstai";
+$daybis[5] = "Perjantai";
+$daybis[6] = "Lauantai";
+$daybis[7] = "Sunnuntai";
+#---------------------------------------------
+# month by month
+
+# grid position of last day of last year
+$endDay = $yearStartDay+28; 
+
+# week numbers - if first week of year has less than four days it is week 52
+if ($yearStartDay < 4) {$weekNumber = 1;} else {$weekNumber = 52;};
+
+foreach $mo (1,2,3,4,5,6,7,8,9,10,11,12) {
+    if ($endDay > 35) {$startDay = $endDay - 35;} else {$startDay = $endDay - 28;};
+    $endDay = $md[$mo-1]+$startDay;
+    open (OUTFILE, ">".$month[$mo].$year.".html");
+    print STDERR "Writing to file ".$month[$mo].$year.".html\n";
+    if ($endDay > 36) {$tmp = $endDay - 36;} else {$tmp = $endDay - 29;};
+    select OUTFILE;
+#---------------------------------------------
+# BEGIN making the page!
+print "<html>\n\n";
+print "<head>\n\n";
+print "</head>\n\n";
+print "<body leftmargin=\"0\" bgcolor=\"#FFFFFF\">\n";
+print "<center>\n";
+print "<table border=\"1\" width=\"662\" height=\"322\" cellspacing=\"0\" style=\"border-collapse: collapse\" bordercolor=\"#808080\">\n";
+    print "<tr><td><img src=\"$picture[$mo]\"></td></tr>\n";
+    print "</table>\n";
+print "<table border=\"1\" width=\"662\" height=\"432\" cellspacing=\"0\" style=\"border-collapse: collapse\" bordercolor=\"#808080\">\n";
+#------------------------------------------------------------------
+# month header
+print "<tr>\n";
+print "    <td width=\"662\" colspan=\"8\" height=\"34\">\n";
+print "        <p align=\"center\">\n";
+print "        <b><font face=\"Arial\" size=\"5\">$month[$mo]</font></b><br>\n";
+print "        <b><font face=\"Arial\" size=\"3\">$year</font></b><br>\n";
+print "        <b><font face=\"Arial\" size=\"3\">$monthbis[$mo]</font></b>\n" if $biling;
+print "        </p>\n";
+print "    </td>\n";
+print "</tr>\n";
+#------------------------------------------------------------------
+# weekday headers
+print "<tr><td>&nbsp;</td>\n";
+foreach $i (1, 2, 3, 4, 5, 6, 7)  {
+    print "      <td width=\"94\" height=\"10\">\n";
+    print "          <p align=\"center\">\n";
+    print "          <font size=\"2\" face=\"Arial\">$day[$i]</font><br>\n";
+    print "          <font size=\"1\" face=\"Arial\">$daybis[$i]</font><br>" if $biling;
+    print "          </p>\n";
+    print "      </td>\n";
+}
+print "</tr>\n";
+#------------------------------------------------------------------
+# calendar row by row
+
+$dayInMonth = 0;
+$dayInCalendar = 0;
+    if ($endDay > 35) {@weeks = (1,2,3,4,5,6);} else {@weeks = (1,2,3,4,5);};
+foreach $weekOfMonth (@weeks) {
+print "    <tr>\n";
+	print "<td width=\"14\" height=\"40\" align=\"left\" valign=\"center\"><font size=\"1\" face=\"Arial\">$weekNumber</font></td>\n";
+foreach $dayOfWeek (1, 2, 3, 4, 5, 6, 7)  {
+    $dayInCalendar++;
+    if ($dayInCalendar < $startDay || $dayInCalendar >= $endDay) {
+	print "<td width=\"94\" height=\"80\" align=\"left\" valign=\"top\">&nbsp;<br>\n";
+	print "</td>\n";
+    } else {
+	$dayInMonth++;
+        # calculate the fourfigure date that our database uses:
+	$date = "";
+	if ($mo < 10) {$date = "0";};
+	$date = $date.$mo;
+	if ($dayInMonth < 10) {$date = $date."0";};
+	$date = $date.$dayInMonth;
+        # if it is a red holiday we want the day to be red;
+	if ($redday{$date}) {
+	    $dateColor = "#FF0000";
+	    $captionColor = "#FF0000";
+        # if it is Sunday we want the day to be red.
+	} elsif ($dayOfWeek == $redDayOfWeek) {
+	    $dateColor = "#FF0000";
+	    $captionColor = "#000000";
+        # otherwise the day is black.
+	} else {
+	    $dateColor = "#000000";
+	    $captionColor = "#000000";
+	};
+	print "      <td width=\"94\" height=\"80\" align=\"left\" valign=\"top\">\n";
+        # first a little space to the left of the date
+	print "      <p align=\"left\"><font color=\"#000000\" size=\"1\">&nbsp;</font>\n";
+        # the date
+	print "<b><font color=\"$dateColor\" size=\"2\">$dayInMonth</font></b>\n";
+#	print "&nbsp;";
+#	print "&nbsp;";
+#	print "&nbsp;";
+#	print "<font size=\"1\">o</font>" if $fullmoon{$date};
+#	print "<font size=\"2\">&bull;" if $newmoon{$date};
+#	print "&nbsp;";
+#	print "&nbsp;";
+#	print "&nbsp;";
+#	print "<br>\n";
+        # name day?
+	print "<font color=\"#000000\" face=\"Times New Roman\" size=\"1\"><i>$nameday{$date}</i><br></font>\n";
+        # holiday?, redday?, flagday?
+	print "<font color=\"$captionColor\" face=\"Times New Roman\" size=\"1\">$holiday{$date}<br></font>\n" if $holiday{$date};
+        # birthday? (in blue, with exclamation mark!)
+	print "<font color=\"#0000FF\" face=\"Times New Roman\" size=\"1\">$birthday{$date}!</font><br>\n" if $birthday{$date};
+        # flag day?
+	print "<img valign=\"top\" src=\"flagga.png\"><br>" if $flagday{$date};
+        # phase of moon?
+	print "<img src=\"newmoon.png\"><br>" if $newmoon{$date};
+	print "<img src=\"fullmoon.png\"><br>" if $fullmoon{$date};
+	print "</td>\n";
+    };
+}; # foreach dayofweek
+if ($dayInCalendar < $endDay) {
+# last year's last week may be 52 or 53: do not increment but reset counter
+    if ($weekNumber > 51 && $mo == 1) {
+	$weekNumber = 1;
+# if we are at the last week and there are less than four days left of the year 
+# the week goes to next year: do not increment but reset counter
+    } elsif ($weekNumber == 52 && $mo == 12 && $dayInMonth > 26) {
+	$weekNumber = 1;
+    } else {
+	$weekNumber++;
+    };
+}
+print "    </tr>\n";
+}; # foreach week of month
+    close OUTFILE;
+};
+print "</table>\n";
+print "</center>\n";
+print "</body>\n";
+print "</html>\n";

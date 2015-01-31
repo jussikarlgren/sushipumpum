@@ -1,0 +1,46 @@
+I think that is the same concept for 1D than for 2D or n-D
+The problem is loading the matrices without modifying some of your code
+
+Loading 2D matrices is easy with constructions like
+       
+ while (<>){
+        chomp;
+        push @bidi, [split];
+        }
+
+Manu
+
+---------------------------------------------------------------------------
+Manuel Rueda                                     e-mail: manu@mmb.pcb.ub.es
+Molecular Modelling & Bioinformatics             phone: + 34 93 403 71 55
+IRBB, Parc Cientific de Barcelona                Fax  : + 34 93 403 71 57
+C/Josep Samitier 1-5,       		         08028 Barcelona
+
+On Wed, 22 Oct 2003, Jussi Karlgren wrote:
+
+> 
+> > Thanks for putting your perl code for free on the web
+> > :)
+> > Sometimes it's good don't reinventing the wheel...
+> > Well, I was going to modify your script because I 
+> >want to compare different 2D arrays of numbers instead of single columns of data and I 
+> >realized that may be you had done this implementation before...
+> >Do you have the same code for 2D matrices?
+> 
+> nope. just columns. but it can take more than pairwise comparisons,
+> meaning several single columns. 
+> 
+> how would you do the 2D? 
+> 
+> J
+> 
+> 
+> 
+> 
+
+
+
+
+
+
+

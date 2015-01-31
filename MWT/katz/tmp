@@ -1,0 +1,268 @@
+<html>
+<HEAD> 
+<TITLE>
+Jussi Karlgren
+</TITLE>
+<LINK REV="made" HREF="mailto:jussi@sics.se">
+</HEAD>
+
+[<A HREF="http://www.sics.se">SICS</A> | <A HREF="http://www.sics.se/humle/humle.html">HUMLE</A> | <A HREF="http://www.sics.se/nlp/nodaline.html">NoDaLiNe</A> |  <A HREF="http://cs.nyu.edu/cs/projects/proteus/karlgren/"> NYU </A> | <a href="http://www.ling.helsinki.fi/~karlgren/"> HY </a>  ]
+
+
+
+<table>
+<tr>
+<td>
+<IMG SRC="http://sics.se/~jussi/Album/jussi.gif" alt="Portr&auml;tt.">
+</td>
+<td>
+<b>
+<font size=+2>
+Jussi Karlgren
+</font><br>
+Professor, fil lic
+</b>
+<p>
+<b> Coordinates </b><br>
+<font size=-1>
+
+<UL>
+<LI>
+Phone: +46 8 752 15 00 <br> 
+<LI>
+Fax: +46 8 751 72 30 <br>
+<LI>
+Mail: Box 1263, 164 29 Kista<br> 
+<LI>
+Visit: SICS, Electrum, Isafjordsgatan 22, Kista, Stockholm<br> 
+<LI>
+E-mail: <a href=mailto:Jussi.Karlgren@sics.se>Jussi.Karlgren@sics.se</a>
+</uL>
+</font>
+<p>
+<b> Areas of interest </b><br>
+
+<UL>
+<LI>
+Dialog models, especially design
+of feedback and dialog conventions
+for interactive systems;
+
+<LI>
+Robust text tools for
+genre classification,
+information filtering, and  
+multilingual information retrieval;
+
+<LI> 
+Uralistics;
+
+<LI> 
+<A HREF="http://www.sics.se/~jussi/steamer.html">
+Steamships.
+</A>
+</UL>
+
+
+</td>
+</tr>
+</table>
+
+
+<hr>
+<P>
+I work 
+in the 
+<A HREF="http://www.sics.se/humle/humle.html">
+Language and Interaction
+</A>
+group
+at 
+<A HREF="http://www.sics.se/">
+SICS,
+</A> 
+in Stockholm, Sweden; I am enrolled in the graduate program at the department of
+<A HREF="http://www.ling.su.se/">
+Linguistics 
+</A>
+at 
+<A HREF="http://www.su.se/abroad.html">
+Stockholm University
+</A>
+; during the academic year 97-98 I will be substituting for Kimmo Koskenniemi
+as
+<a href="http://www.ling.helsinki.fi/~karlgren/">
+professor 
+</a>
+of computational linguistics in Helsinki.
+
+<P>
+
+<hr>
+<h2>Undervisningsmaterial</h2>
+<a href="Undervisning">H&auml;r.</a>
+<hr>
+<P>
+<H2>
+Background and Reseach Goals
+</H2>
+
+I received my B A in Computational Linguistics and Mathematics in 1988, a
+Licentiate of Philosophy in Computer and Systems Sciences 1992, and have
+since then been employed at SICS in the Language and Interaction group -
+the former Natural Language Processing group. Currently I hold a part time
+professorship at Helsinki University. I have previously worked at SISU,
+been a visiting student at Columbia University, a programming assistant at
+Xerox PARC, and an assistant research scientist in the <A
+HREF="http://cs.nyu.edu/cs/projects/proteus/"> PROTEUS </A> project at New
+York University. 
+
+<p>
+
+My primary interests are dialogue and communication, taken
+broadly enough to include human computer dialogue design, information
+retrieval, and language typology - my research has focused on ensuring that
+multimodal human-computer dialogue provides enough cues for natural
+language interaction to be natural, transparent, and intuitive; and in
+investigating surface cues in texts to aid text categorization. My long
+term research goal is to show how these two activities can be understood as
+investigation of the same cognitive mechanisms.
+
+
+
+<hr>
+<H2>
+Projects and Publications
+</H2>
+<P>
+
+
+
+<H3>
+<A NAME=Nontopic>
+Text genres and text context or ecology:
+</A>
+</H3>
+
+One of the research projects of the NLP group is to experiment
+with non-topic information retrieval. The idea is to complement
+standard information retrieval metrics which are based on a
+shallow semantic analysis with a genre analysis and a usage
+or text ecology analysis. An encouraging experiment on text genre recognition 
+is described in a publication 
+<A HREF="http://www.sics.se/~jussi/cmplglixcol.ps"> 
+"Text genre recognition using discriminant analysis"
+</A>
+from 
+<A HREF="http://xxx.lanl.gov/cmp-lg/Coling-94.html">
+COLING 94, Kyoto, 1994
+</A>,
+and another experiment on text clustering based on usage statistics in a 
+tech report 
+<A HREF="http://www.sics.se/libabstracts.html#T94/04"> 
+"Newsgroup clustering"
+</A>
+available at SICS. They are both brought together into a
+common framework in an overview paper: 
+<A HREF="http://www.sics.se/~jussi/distrnontopicir.ps"> 
+"Non-topic information retrieval".
+</A>
+My work in New York relates to this theme. See the <a href="http://www.cs.nyu.edu/cs/projects/proteus/trec/">Proteus project
+information retrieval page</a> for reports.
+<H3>
+<A NAME=Multimodal>
+Multimodal discourse:
+</A>
+</H3>
+
+The two projects DIVERSE and PUSH are multimodal interface experiments.
+DIVERSE is a speech interface to a virtual reality environment, and PUSH is
+a multimodal help system which allows users to pose queries by direct
+manipulation in adaptive hypertext.
+
+
+<ul>
+<li>
+<A HREF="http://www.sics.se/uacm/push.html">
+PUSH home page. 
+</A>
+
+<li>
+<A HREF="http://www.sics.se/nlp/diverse.html">
+DIVERSE home page.
+</A>
+</ul>
+
+<p>
+
+<h3>
+<A NAME=Traid>
+Translation Aid Systems
+</A>
+</h3>
+<ul>
+<li>
+<A HREF="http://www.sics.se/nlp/dilemma.html">
+Dilemma
+</A> is a tool to extract lexical information from previously translated
+parallellized texts. 
+</ul>
+<h3>
+<A NAME=Other>
+Other Publications
+</A>
+</h3>
+
+<ul>
+<LI> <A href="disney/disney.html">
+``Inferring Complex Plans''
+</A> 
+from the 1st International Workshop on Intelligent Interfaces.
+<p>
+<LI>
+A 
+<a href=registerIWCrevised.ps>
+note 
+</A>
+on the term ``Sublanguage'' and a 
+<a href=registerReply.ps>
+rejoinder
+</A> 
+to critical replies.
+
+(Interacting with Computers, September and December 1993.)
+<p>
+<li>
+An ill-formatted version of my licentiate thesis
+<A href = "lic.ps">
+"The Interaction of Discourse Modality and User Expectations in 
+Human-Computer Dialog"
+</A>
+(44 pages)
+
+<!-- <li> Future work: a <a href="Avhandling">Ph D dissertation</a> in the making. -->
+</UL>
+
+<hr>
+
+<!--<li><a href="http://redeemer.on.ca/~cknowles/chron/71-riv.html">1971 Buick Riviera</a> (lost in Harlem)-->
+<img src="Album/peugeot.gif" alt= "1969 Peugeot 404">
+<!--<li>1986 Renault 5 GTS (piled up)-->
+<!--<li>1982 Ford Taunus 2.0 -->
+
+
+<P>
+<hr>
+[<A HREF="http://www.sics.se">SICS</A> | <A HREF="http://www.sics.se/humle/humle.html">HUMLE</A> | <A HREF="http://www.sics.se/nlp/nodaline.html">NoDaLiNe</A> |  <A HREF="http://cs.nyu.edu/cs/projects/proteus/karlgren/"> NYU </A> | <a href="http://www.ling.helsinki.fi/~karlgren/"> HY </a>  ]
+<hr>
+<ADDRESS>
+<img align=bottom src="http://www.sics.se/humle/sics_tran.gif">
+
+<STRONG>E-mail</STRONG> <a href=mailto:Jussi.Karlgren@sics.se>Jussi.Karlgren@sics.se</a>
+</ADDRESS>
+
+
+
+
+
+</html>

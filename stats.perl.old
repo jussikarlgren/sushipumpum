@@ -1,0 +1,103 @@
+
+#!/usr/local/bin/perl
+$/=";";
+$*=1;
+$debug=0;
+# statistics initialization
+	$typecount = 0;
+	$wordcount = 0;
+	$sentcount = 0;
+	$charcount = 0;
+	$lw = 0;
+	%mendenhall = ();
+	%typetab = ();
+	%cattab = (6,0,7,0,8,0,9,0,10,0,11,0,48,0,58,0,59,0);
+	%textify = (0,"tokens",6,"1p",7,"2p",8,"3p",9,"it",10,"dem",11,"ind",48,"adv",58,"hmm",59,"nt");
+#itself? #"ours",6, "mine",6,# "yours",7,# "theirs",8,"hers",8,"noone", 11,  "this",10,"these",10,"those",10,
+
+	%lexcat = ("i",6,"my",6,"me",6,"we",6,"our",6,"us",6,"myself",6,"ourselves",6, 		   "you",7,"your",7, "yourself",7,"yourselves",7, 
+		   "he",8,"him",8,"his",8,"she",8,"her",8,"they",8,"them",8,"their",8, "himself", 8, "herself", 8, "themselves", 8,
+		   "it",9, 
+		   "anybody",11,"nothing",11,"someone",11, "anyone", 11, "anything", 11, "everybody", 11, "everyone", 11, "everything", 11, "nobody", 11, "someone", 11, "something", 11, "none", 11, "nowhere", 11,
+		   "absolutely", 48, "altogether", 48, "completely", 48, "enormously", 48, "entirely", 48, "extremely", 48, "fully", 48, "greatly", 48, "highly", 48, "intensely", 48, "perfectly", 48, "strongly", 48, "thoroughly", 48, "totally", 48, "utterly", 48, "very", 48,
+		   "seem",58, "appear",58,
+		   "ain't", 59, "aren't", 59, "can't", 59, "couldn't", 59, "didn't", 59, "doesn't", 59, "don't", 59, "hadn't", 59, "hasn't", 59, "haven't", 59, "he'd", 59, "he'll", 59, "he's", 59, "i'd", 59, "i'll", 59, "i'm", 59, "i've", 59, "isn't", 59, "it'll", 59, "it's", 59, "let's", 59, "she's", 59, "shouldn't", 59, "that's", 59, "there'd", 59, "there's", 59, "they'd", 59, "they'll", 59, "they're", 59, "they've", 59, "wasn't", 59, "we'd", 59, "we'll", 59, "we're", 59, "we've", 59, "weren't", 59, "what's", 59, "who'd", 59, "who's", 59, "won't", 59, "wouldn't", 59, "you'd", 59, "you'll", 59, "you're", 59, "you've", 59);
+	       
+
+    
+
+
+# statistics computation
+
+while (<>) {
+	@sents=split(/;/);
+	@words=split(/\W*\s+\W*/); 
+
+	foreach $word (@words) {
+	    if (length($word) > 0) {
+		if (length($word) > 7) {$lw++};
+		if ($word*1 != 0) {$digcount++;};
+		$wordcount++;	
+		if ($word eq ucfirst($word)) 
+		{$captypetab{$word} = 1; $captoktab{$word}++;};
+		$word = lc($word);		# lowercase 
+		$cattab{$lexcat{$word}}++;
+		$typetab{$word} = 1;
+		$charcount += length($word);
+		$mendenhall{length($word)}++; 
+	    }};
+
+
+	foreach $sent (@sents) {$sentcount++;}; 
+		
+  
+
+    } # while (<>)
+
+foreach (keys %typetab) {$typecount++;}; 
+$sentcount--; #fix to subtract extra sentence hallucinated after last full stop.
+
+foreach (keys %captypetab) {$captypecount++;}; 
+foreach (keys %captoktab) {$captokcount += $captoktab{$_};}; 
+
+if ($captokcount) {$ctt = $captypecount/$captokcount;} else {$ctt = 0;};
+
+# output
+
+	if ($wordcount) {
+	    $a = $typecount/$wordcount;
+	    $b = $lw/$wordcount;
+	    $c = $charcount/$wordcount;
+	    $digits = $digcount/$charcount;
+	    if ($sentcount) {$e = $wordcount/$sentcount;} else {$e = $wordcount;};
+
+
+
+
+	    if ($debug) {
+	    print "uc-t/t=$ctt words=",$wordcount," types=$typecount t/t=", $a, " lw=", $b, " cpw=", $c," dig=$digits  wps=",$e," ";
+
+	    foreach (sort numerically keys %cattab) {if ($_) {print "$textify{$_}($_)=",$cattab{$_}/$wordcount," ";}}
+
+	}
+	    else {
+		print " $ctt $wordcount $a $b $c $digits $e ";
+		foreach (sort numerically keys %cattab) {if ($_) {print $cattab{$_}/$wordcount," ";}}}
+
+	    print "\n";}
+
+
+
+    close(DATAFILE);
+exit(0);	
+
+
+
+sub numerically { $a <=> $b; };
+
+
+
+
+
+
+

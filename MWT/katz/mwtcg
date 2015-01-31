@@ -1,0 +1,162 @@
+#!/usr/local/bin/perl
+
+###############################################################################
+#                                                                             #
+# MWT is a program aiming at identifying topically used technical terminology #
+# in text. It is based on structural (simple noun phrases) and discourse      #
+# (repetition) properties of multi-word terms. These properties along with    #
+# the algorithm utilizing them were first presented in                        #
+#                                                                             #
+# John S. Justeson and Slava M. Katz. Technical terminology:                  #
+# some linguistic property and algorithm for identifying in text.             #
+# IBM Research Report xxxx, 1993.                                             #
+#                                                                             #
+# An updated version of the paper was published under the same title in       #
+# Natural Language Engineering: 1(1), 9-27 (1995).                            #
+#                                                                             #
+# MWT is based on the material presented in these publications.               #
+#                                                                             #
+###############################################################################
+#                                                                             #
+# Usage:       mwt file_name [ min_length max_length  preps ]                 #
+#                                                                             #
+#                                                                             #
+#                                                                             #
+#              file_name  is a name of the text file to be processed          #
+#                         the file is assumed to be tokenized                 #
+#              min_length is the minimum number of words in a term            #
+#              max_length is the maximum number of words in a term            #
+#              preps      is either 0 - no prepositions allowed,              #
+#                                or 1 - only "of" is allowed,                 #
+#                                or 2 - all prepositions are allowed.         #
+#                                                                             #
+###############################################################################
+
+#if ( ($#ARGV == -1) ) { 
+# || ($ARGV[0] == "?") || (($#ARGV != 0) && ($#ARGV != 3)) ) { 
+#  print "Syntax:   mwt file_name [ min_length max_length preps ]","\n";  
+#  print "Defaults: min_length=2, max_length=5, preps=0 (no prepositions)","\n";
+#  exit;
+#}    
+
+$min = 2; $max = 5; $preps = 0;
+
+print "Processing ", $ARGV[0], " (", $min, " ", $max, " ", $preps, ")\n"; 
+
+#print STDOUT "\$preps=",$preps,"\n";
+
+open(STOPLIST, "<stoplist");  
+
+while ($_ = <STOPLIST>) {
+   ($str = $_) =~ s/\s//; 
+   $str =~ tr/A-Z/a-z/;  
+   $stop{$str} = 1;  
+}
+ 
+close STOPLIST;
+ 
+open(OR_WORDS,"<or_words");  # override words 
+
+while ($_ = <OR_WORDS>) {
+   chop $_; ($str = $_) =~ tr/ //d; 
+   $str =~ tr/A-Z/a-z/;  
+   $stop{$str} = 0;  
+   $or_words{$str} = 1; 
+} 
+
+close OR_WORDS;
+
+
+
+open(OUTFILE,">outfile"); 
+
+select(OUTFILE);
+
+$rest = (); $zz = 0; 
+while (<>) {
+
+if the word is a separator: process
+
+ &PROCESS;
+
+else, take next line, and
+if the word indeed is a word and not a separator, add it to list.
+$analysis = <>;
+$analysis =~ /"(\w+)" (\<.*\>)* (\w+)/;
+$word = $1;
+$pos = $3;
+
+@frag = (@frag,$word); # add word to list.
+$code{$_[0]} = $pos;
+
+} 
+
+close OUTFILE; 
+
+select(STDOUT);
+
+exec("sort outfile | uniq -c | sort -nr") || die "Can't sort/uniq: $!\n"; 
+
+exit(0);
+
+sub pcode {
+
+    local($lword,$code) = (@_,99);
+    $code = $codes{$lword};  
+if (!$code) {
+	    open(WCODE, "echo $lword | engcg -S |");
+	    while (<WCODE>) {
+		$line = <WCODE> until ($line =~ /\<.*\> (\w+)/)
+            };
+            $code = $1;
+	$codes{$lword} = $code;
+}
+            if (($or_words{$lword} == 1) || ($code == undef)) {return 1}
+            return $code;   
+}
+
+sub PASSED {
+    local($lword,$code) = (@_,99); 
+    $code = &pcode($lword);  
+    if ( $stop{$lword} == 1 ) { return 0 };  
+    if ( $lword > 0 ) { return 0 }; # test for numbers. /JFK
+    if ( length($lword) < 2 ) { return 0 }; # single characters. /JFK
+    if ( $code <= 3 ) { return 1 };  
+    if (($preps >= 1) && ($lword eq "of")) { return 1 };
+    if (($preps == 2) && ($code == 4)) { return 1 };
+    return 0;
+
+}
+
+sub PROCESS {
+
+    local($jj_lim, $n_preps);  
+    if (($#frag+1) < $min) { return }; 
+    LOOP_B: for ($ii = 0; $ii <= ($#frag-$min+1); $ii++) { # thru beginnings
+      if (&pcode($frag[$ii]) == 4) {next}; # 1st is prep 
+      $jj_lim = $ii+$max-1; 
+      if ($jj_lim > $#frag) {$jj_lim = $#frag}; 
+      LOOP_E: for ($jj = $ii+$min-1; $jj <= $jj_lim; $jj++) { # thru ends 
+        if ( &pcode($frag[$jj]) > 2 ) {next};  # last is not noun 
+        if ( $preps >= 1 ) {
+          $n_preps = 0;
+          for ($kk = $ii+1; $kk <= $jj-1; $kk++) {
+            if ( &pcode($frag[$kk]) == 4 ) { 
+              $n_preps++; 
+              if (($n_preps > 1) || (&pcode($frag[$kk-1]) > 2)) {next LOOP_B}; 
+            } 
+          } # end of $kk for-loop
+          if (($prep_err > 0) || ($n_preps > 1)) {next}; 
+        } # end of if ($preps >= 1)
+        foreach $ll ($ii .. $jj) {
+          if ($ll != $ii) { print  " " };  
+          print  $frag[$ll];
+          if ($ll == $jj) {print "\n"} 
+        } # end of foreach-loop 
+      } # end of LOOP_E loop 
+    } # end of LOOP_B loop    
+
+}
+
+
+
