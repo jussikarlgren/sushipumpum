@@ -1,0 +1,4 @@
+henoheno:text jussi$ perl parsejournal.perl /data/.fk/*g.txt > f32s82.txt
+
+henoheno:text jussi$ iconv -f ISO-8859-1 -t UTF-8 f32s82.txt > f32s82.utf8
+
