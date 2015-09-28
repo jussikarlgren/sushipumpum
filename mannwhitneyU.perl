@@ -12,7 +12,7 @@ $critpos = $opt_c;
 $valpos = $opt_v;
 $debug = $opt_d;
 if ($opt_r) {$rel = $opt_r;} else {$rel = 1;};
-if ($opt_l) {$label = $opt_l;} else {$label = "feature";};
+if ($opt_l) {$label_pos = $opt_l;} else {undef $label_pos; $label = "feature";};
 if ($opt_n ne "") {$nonrel = $opt_n;};
 
 
@@ -20,11 +20,12 @@ $n = 0;
 $k = 0;
 print "n	n2		nx	sx	ny	sy\n" if $debug;
 while(<>) {
-    split;
-    next if @_[$critpos] ne $rel && ($nonrel ne "" && @_[$critpos] ne $nonrel);
+    @_ = split;
+    if ($label_pos && $_[$label_pos]) {$label = $_[$label_pos]; undef $label_pos;}
+    next if $_[$critpos] ne $rel && ($nonrel ne "" && $_[$critpos] ne $nonrel);
     print "$n	$n2+$an*$an/$a	   $nx+$ax	$sx+$k*$ax	$ny+$ay	$sy+$k*$ay\n" if $debug;
-    if (@_[$valpos] ne $prev) { 
-#	if (@_[$valpos] > $prev) 
+    if ($_[$valpos] ne $prev) { 
+#	if ($_[$valpos] > $prev) 
 #	    if ($dir eq "desc") {
 #		die "mwu: not sorted\n";
 #	    } elsif !($dir) {
@@ -36,7 +37,7 @@ while(<>) {
 	$sx += $k * $ax;
 	$ny += $ay;
 	$sy += $k * $ay;
-	$prev = @_[$valpos];
+	$prev = $_[$valpos];
 	$ax = 0;
 	$ay = 0;
 	$an = 0;
@@ -45,16 +46,16 @@ while(<>) {
     $n++;
     $an += $n;		
     $a++;	       
-	    if (@_[$critpos] eq $rel) {
+	    if ($_[$critpos] eq $rel) {
 		$ax++; 
-		$truesx += @_[$valpos]; 
-		$truesx2 += @_[$valpos]*@_[$valpos];} 
+		$truesx += $_[$valpos]; 
+		$truesx2 += $_[$valpos]*$_[$valpos];} 
 	    else {
 		$ay++; 
-		  $truesy += @_[$valpos];
-		  $truesy2 += @_[$valpos]*@_[$valpos];}
-	    $truesn += @_[$valpos];
-	    $truesn2 += @_[$valpos] * @_[$valpos];
+		  $truesy += $_[$valpos];
+		  $truesy2 += $_[$valpos]*$_[$valpos];}
+	    $truesn += $_[$valpos];
+	    $truesn2 += $_[$valpos] * $_[$valpos];
 
 	}
 		$k = $an / $a if $a;
@@ -88,7 +89,7 @@ $w10 = $nx*($bign+1) - $w90;
 $w75 = $nx*($bign+1)/2+0.675*sqrt($nx*$ny*($bign+1)/12);
 $w25 = $nx*($bign+1) - $w75;
 
-print "Rank sum: $sx Criterion ";
+print "Rank sum: ($rel wrt $valpos - $label) $sx Criterion ";
 if ($sx < $w05)
     {print "(95\%) < $w05 Result: YES: low.\n";} 
 elsif ($sx > $w95) 

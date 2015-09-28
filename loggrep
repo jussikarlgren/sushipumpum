@@ -1,0 +1,3 @@
+#!\usr\bin\perl
+
+exec "grep $ARGV[1] /hosts/brahma/misc1/http_logs/access_log";
