@@ -185,3 +185,7 @@ done < peptides.txt
 
 
 
+perl -ane '{ if(m/[[:^ascii:]]/) { print  } }' 
+
+(finds non-ascii characters!)
+
