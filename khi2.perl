@@ -4,15 +4,12 @@ $debug = 0;
 $i=0;
 $jmax = 0;
 
-require "getopts.pl";
-&Getopts('d');
-
-$debug = 1 if ($opt_d);
 
 while($line = <STDIN>)
 {
 $j=0;
-    foreach $word (split(/\s+/,$line)) {
+#    foreach $word (split(/\s+/,$line)) {
+    foreach $word (split(/\;/,$line)) {
 	next if $word eq "";
 	$item[$i][$j] = $word;
 	$row[$i] += $word;
